@@ -9,6 +9,7 @@ PORTALS_FILE = "data/portals.json"
 ARCHIVE_FILE = "data/portal_archive.json"
 ROLE_FILE = "data/role.json"
 LOG_FILE = "data/log.json"
+WORKLOG_FILE = "worklog.md"
 
 def load_json(path):
     if not os.path.exists(path):
@@ -41,6 +42,12 @@ def load_role():
 def save_role(role):
     with open(ROLE_FILE, "w", encoding="utf-8") as f:
         json.dump({"role": role}, f, ensure_ascii=False)
+
+def load_worklog():
+    if not os.path.exists(WORKLOG_FILE):
+        return "AI Worklog пока не заполнен."
+    with open(WORKLOG_FILE, "r", encoding="utf-8") as f:
+        return f.read()
 
 if "portals" not in st.session_state:
     st.session_state.portals = load_json(PORTALS_FILE)
@@ -259,12 +266,13 @@ if st.session_state.page == "Порталы":
         if not filtered:
             st.info("Ничего не найдено")
         else:
-            for p in filtered:
-                score = risk_score(p["energy"], p["stability"])
-                color = risk_color(score)
-                st.markdown(f"**{p['name']}** — {p['status']}")
-                st.markdown(f"риск: :{color}[{score:.1f} из 100]")
-                st.write("")
+            with st.container(height=300):
+                for p in filtered:
+                    score = risk_score(p["energy"], p["stability"])
+                    color = risk_color(score)
+                    st.markdown(f"**{p['name']}** — {p['status']}")
+                    st.markdown(f"риск: :{color}[{score:.1f} из 100]")
+                    st.write("")
 
         st.divider()
         st.subheader("Архив")
@@ -282,8 +290,9 @@ if st.session_state.page == "Порталы":
                 st.session_state.choice_active = None
 
             st.divider()
-            for a in archive:
-                st.markdown(f"**{a['name']}** — {a['world']}")
+            with st.container(height=300):
+                for a in archive:
+                    st.markdown(f"**{a['name']}** — {a['world']}")
 
     with col_gap:
         st.empty()
@@ -558,14 +567,15 @@ elif st.session_state.page == "Создать портал":
                     st.rerun()
 
                 st.divider()
-                for entry in filtered:
-                    p = entry["item"]
-                    score = risk_score(p["energy"], p["stability"])
-                    color = risk_color(score)
-                    prefix = "[архив] " if entry["is_archive"] else ""
-                    st.markdown(f"{prefix}**{p['name']}** — {p['status']}")
-                    st.markdown(f"риск: :{color}[{score:.1f} из 100]")
-                    st.write("")
+                with st.container(height=300):
+                    for entry in filtered:
+                        p = entry["item"]
+                        score = risk_score(p["energy"], p["stability"])
+                        color = risk_color(score)
+                        prefix = "[архив] " if entry["is_archive"] else ""
+                        st.markdown(f"{prefix}**{p['name']}** — {p['status']}")
+                        st.markdown(f"риск: :{color}[{score:.1f} из 100]")
+                        st.write("")
 
         with col_create_gap:
             st.empty()
@@ -667,32 +677,4 @@ elif st.session_state.page == "Журнал":
 
 elif st.session_state.page == "AI Worklog":
 
-    st.header("AI Worklog")
-    st.write("Заполни этот раздел сам. Ниже — подсказки, что сюда написать.")
-
-    st.subheader("Инструменты")
-    st.write("Какие AI-инструменты использовал.")
-
-    st.subheader("Время разработки")
-    st.write("Сколько часов и дней ушло.")
-
-    st.subheader("Токены")
-    st.write("Инструмент показывает статистику / не показывает.")
-
-    st.subheader("Этапы работы")
-    st.write("Идея, архитектура, UI, логика, отладка, проверка.")
-
-    st.subheader("Что делал я, что AI")
-    st.write("Коротко по каждому этапу.")
-
-    st.subheader("Ключевые промпты")
-    st.write("Суть запросов, без длинных полотен.")
-
-    st.subheader("Мои решения")
-    st.write("3–5 решений, которые принял сам.")
-
-    st.subheader("Где AI ошибся")
-    st.write("Примеры неудачных предложений.")
-
-    st.subheader("Что улучшил бы")
-    st.write("Что добавил бы в реальном продукте.")
+    st.markdown(load_worklog())
