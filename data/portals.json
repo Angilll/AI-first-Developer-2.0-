@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Забытый замок",
+    "world": "Королевство теней",
+    "energy": 20,
+    "stability": 0.9,
+    "status": "открыт",
+    "creatures": 0
+  },
+  {
+    "name": "Пыльная библиотека",
+    "world": "Город часов",
+    "energy": 50,
+    "stability": 0.5,
+    "status": "открыт",
+    "creatures": 0
+  },
+  {
+    "name": "Северный маяк",
+    "world": "Туманный берег",
+    "energy": 75,
+    "stability": 0.9,
+    "status": "открыт",
+    "creatures": 18
+  },
+  {
+    "name": "Опосум",
+    "world": "Каменные равнины",
+    "energy": 50,
+    "stability": 0.9,
+    "status": "открыт",
+    "creatures": 5
+  },
+  {
+    "name": "Горящий",
+    "world": "Берег Пустоши",
+    "energy": 80,
+    "stability": 0.1,
+    "status": "открыт",
+    "creatures": 27
+  },
+  {
+    "name": "Закуток в подворье",
+    "world": "Мир  Гоблинов",
+    "energy": 50,
+    "stability": 0.1,
+    "status": "открыт",
+    "creatures": 12
+  },
+  {
+    "name": "Пугающий Глаз",
+    "world": "Жуткий мир",
+    "energy": 95,
+    "stability": 0.1,
+    "status": "открыт",
+    "creatures": 30
+  }
+]
